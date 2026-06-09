@@ -6,7 +6,7 @@ FROM cgr.dev/chainguard/wolfi-base:latest@sha256:3258be472764337fd13095bcbb3182d
 ARG BUILD_DATE
 ARG GIT_REVISION
 
-LABEL org.opencontainers.image.source="https://github.com/platform-images/base-docker-images"
+LABEL org.opencontainers.image.source="https://github.com/platform-base-images/hardened-base"
 LABEL org.opencontainers.image.version="1.0.0"
 LABEL org.opencontainers.image.created="${BUILD_DATE}"
 LABEL org.opencontainers.image.revision="${GIT_REVISION}"
