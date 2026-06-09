@@ -6,7 +6,7 @@ FROM cgr.dev/chainguard/go:latest-dev@sha256:b782cb183c5b592ab2d2ace098629244c2d
 ARG BUILD_DATE
 ARG GIT_REVISION
 
-LABEL org.opencontainers.image.source="https://github.com/platform-images/base-docker-images"
+LABEL org.opencontainers.image.source="https://github.com/platform-base-images/hardened-base"
 LABEL org.opencontainers.image.version="1.0.0"
 LABEL org.opencontainers.image.created="${BUILD_DATE}"
 LABEL org.opencontainers.image.revision="${GIT_REVISION}"

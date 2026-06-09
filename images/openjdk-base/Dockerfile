@@ -6,7 +6,7 @@ FROM cgr.dev/chainguard/maven:latest-dev@sha256:2938a9d8d8b75851d7b5b202538faf6f
 ARG BUILD_DATE
 ARG GIT_REVISION
 
-LABEL org.opencontainers.image.source="https://github.com/platform-images/base-docker-images"
+LABEL org.opencontainers.image.source="https://github.com/platform-base-images/hardened-base"
 LABEL org.opencontainers.image.version="1.0.0"
 LABEL org.opencontainers.image.created="${BUILD_DATE}"
 LABEL org.opencontainers.image.revision="${GIT_REVISION}"

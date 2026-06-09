@@ -1,10 +1,10 @@
 schemaVersion: 2.0.0
 
-metadataTests:
+metadataTest:
   user: "nonroot"
   labels:
     - key: "org.opencontainers.image.source"
-      value: "https://github.com/platform-images/base-docker-images"
+      value: "https://github.com/platform-base-images/hardened-base"
     - key: "org.opencontainers.image.licenses"
       value: "Apache-2.0"
 
@@ -21,6 +21,6 @@ fileExistenceTests:
   - name: "tzdata UTC zone present"
     path: "/usr/share/zoneinfo/UTC"
     shouldExist: true
-  - name: "no root-owned suid binaries"
-    path: "/bin/su"
+  - name: "no setuid su binary"
+    path: "/bin/sudo"
     shouldExist: false

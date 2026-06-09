@@ -1,6 +1,6 @@
 schemaVersion: 2.0.0
 
-metadataTests:
+metadataTest:
   user: "nonroot"
   envVars:
     - key: "CGO_ENABLED"
@@ -9,7 +9,7 @@ metadataTests:
       value: "linux"
   labels:
     - key: "org.opencontainers.image.source"
-      value: "https://github.com/platform-images/base-docker-images"
+      value: "https://github.com/platform-base-images/hardened-base"
     - key: "org.opencontainers.image.licenses"
       value: "Apache-2.0"
 
@@ -33,5 +33,5 @@ fileExistenceTests:
 
 ---
 # Distroless variant — validate separately by running:
-#   container-structure-test test --image ghcr.io/platform-images/go-base:VERSION-distroless \
+#   container-structure-test test --image ghcr.io/platform-base-images/go-base:VERSION-distroless \
 #     --config images/go-base/tests/structure-test-distroless.yaml
