@@ -30,7 +30,7 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  ORG: platform-images
+  ORG: platform-base-images
 
 # ── Job 1: Secrets scan ────────────────────────────────────────────────────────
 jobs:

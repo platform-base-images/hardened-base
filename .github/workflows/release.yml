@@ -27,7 +27,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  ORG: platform-images
+  ORG: platform-base-images
 
 # ── Job 1: Detect which image directories changed (or use manual input) ───────
 jobs:
@@ -297,7 +297,7 @@ jobs:
       - name: Dispatch Renovate run in app-reference-implementations
         if: success()
         run: |
-          gh api repos/platform-images/app-reference-implementations/dispatches \
+          gh api repos/platform-base-images/app-reference-implementations/dispatches \
             --method POST \
             --field event_type=renovate-run \
             --field client_payload='{"image":"${{ matrix.image }}","digest":"${{ steps.build-standard.outputs.digest }}"}'

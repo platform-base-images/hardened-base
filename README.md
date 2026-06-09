@@ -3,9 +3,9 @@
 Hardened, CVE-free base Docker images built on [Wolfi](https://wolfi.dev) by [Chainguard](https://chainguard.dev).  
 A platform engineering reference implementation: every image is digest-pinned, automatically patched, signed with Cosign, SBOM-attested, and SLSA Level 2+ provenance-stamped before it reaches a consumer.
 
-[![PR Checks](https://github.com/platform-images/hardened-base/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/platform-images/hardened-base/actions/workflows/pr-checks.yml)
-[![Release](https://github.com/platform-images/hardened-base/actions/workflows/release.yml/badge.svg)](https://github.com/platform-images/hardened-base/actions/workflows/release.yml)
-[![Nightly CVE Scan](https://github.com/platform-images/hardened-base/actions/workflows/scheduled-scan.yml/badge.svg)](https://github.com/platform-images/hardened-base/actions/workflows/scheduled-scan.yml)
+[![PR Checks](https://github.com/platform-base-images/hardened-base/actions/workflows/pr-checks.yml/badge.svg)](https://github.com/platform-base-images/hardened-base/actions/workflows/pr-checks.yml)
+[![Release](https://github.com/platform-base-images/hardened-base/actions/workflows/release.yml/badge.svg)](https://github.com/platform-base-images/hardened-base/actions/workflows/release.yml)
+[![Nightly CVE Scan](https://github.com/platform-base-images/hardened-base/actions/workflows/scheduled-scan.yml/badge.svg)](https://github.com/platform-base-images/hardened-base/actions/workflows/scheduled-scan.yml)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
 ---
@@ -51,7 +51,7 @@ flowchart TD
         R1["Detect\nChanged Images"]
         R2["Multi-arch Build\namd64 + arm64\nstandard + distroless"]
         R3["Trivy\nPre-push Gate"]
-        R4["Push to GHCR\nghcr.io/platform-images/*"]
+        R4["Push to GHCR\nghcr.io/platform-base-images/*"]
         R5["Cosign Sign\nKeyless OIDC"]
         R6["SBOM\nAttestation"]
         R7["SLSA Level 2+\nProvenance"]
@@ -71,7 +71,7 @@ flowchart TD
 
     subgraph CONSUMER["  Consumer Side  "]
         direction LR
-        C1["FROM ghcr.io/platform-images/*\npinned to digest"]
+        C1["FROM ghcr.io/platform-base-images/*\npinned to digest"]
         C2["cosign verify\nsignature + provenance"]
         C3["Production Workload\nnon-root · minimal attack surface"]
         C1 --> C2 --> C3
@@ -120,13 +120,13 @@ Use the **standard** variant for `FROM … AS builder` and the **distroless** va
 
 ```dockerfile
 # Build stage — shell + package manager available
-FROM ghcr.io/platform-images/nodejs-base:1.0.0 AS builder
+FROM ghcr.io/platform-base-images/nodejs-base:1.0.0 AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci --only=production
 
 # Runtime stage — no shell, minimal attack surface
-FROM ghcr.io/platform-images/nodejs-base:1.0.0-distroless
+FROM ghcr.io/platform-base-images/nodejs-base:1.0.0-distroless
 WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
@@ -140,21 +140,21 @@ CMD ["node", "dist/index.js"]
 ### 1 — Verify the signature before pulling
 
 ```bash
-cosign verify ghcr.io/platform-images/nodejs-base:1.0.0 \
-  --certificate-identity=https://github.com/platform-images/hardened-base/.github/workflows/release.yml@refs/heads/main \
+cosign verify ghcr.io/platform-base-images/nodejs-base:1.0.0 \
+  --certificate-identity=https://github.com/platform-base-images/hardened-base/.github/workflows/release.yml@refs/heads/main \
   --certificate-oidc-issuer=https://token.actions.githubusercontent.com
 ```
 
 ### 2 — Pull pinned to digest (recommended for production)
 
 ```dockerfile
-FROM ghcr.io/platform-images/nodejs-base:1.0.0@sha256:<digest>
+FROM ghcr.io/platform-base-images/nodejs-base:1.0.0@sha256:<digest>
 ```
 
 ### 3 — Inspect the SBOM
 
 ```bash
-cosign download attestation ghcr.io/platform-images/nodejs-base:1.0.0 \
+cosign download attestation ghcr.io/platform-base-images/nodejs-base:1.0.0 \
   | jq -r '.payload' | base64 -d | jq .
 ```
 
@@ -288,7 +288,7 @@ docker compose run --rm nodejs-base node --version
 | `X.Y.0` minor | New package, new variant, non-breaking change |
 | `X.0.0` major | Base OS change, runtime version upgrade, breaking change |
 
-Tags follow the pattern `release/<image-name>/vX.Y.Z` in git and `ghcr.io/platform-images/<image>:X.Y.Z` in the registry.
+Tags follow the pattern `release/<image-name>/vX.Y.Z` in git and `ghcr.io/platform-base-images/<image>:X.Y.Z` in the registry.
 
 ---
 
