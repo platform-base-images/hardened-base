@@ -17,3 +17,4 @@ RUN apk add --no-cache \
     tzdata
 
 USER nonroot
+CMD ["/bin/sh"]
