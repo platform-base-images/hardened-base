@@ -2,6 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:base"],
   "schedule": ["before 6am on Monday"],
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 2,
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate — Dependency Updates",
   "dependencyDashboardApproval": false,
