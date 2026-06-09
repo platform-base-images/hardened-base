@@ -1,13 +1,13 @@
 schemaVersion: 2.0.0
 
-metadataTests:
+metadataTest:
   user: "nonroot"
   envVars:
     - key: "NODE_ENV"
       value: "production"
   labels:
     - key: "org.opencontainers.image.source"
-      value: "https://github.com/platform-images/base-docker-images"
+      value: "https://github.com/platform-base-images/hardened-base"
     - key: "org.opencontainers.image.licenses"
       value: "Apache-2.0"
 
