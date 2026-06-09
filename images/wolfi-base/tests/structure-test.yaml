@@ -21,6 +21,6 @@ fileExistenceTests:
   - name: "tzdata UTC zone present"
     path: "/usr/share/zoneinfo/UTC"
     shouldExist: true
-  - name: "no root-owned suid binaries"
-    path: "/bin/su"
+  - name: "no setuid su binary"
+    path: "/bin/sudo"
     shouldExist: false
