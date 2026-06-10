@@ -201,7 +201,7 @@ jobs:
         run: |
           GOSS_FILES_PATH=images/${{ matrix.image }}/tests \
           GOSS_PATH=/usr/local/bin/goss \
-            dgoss run ${{ matrix.image }}:pr
+            dgoss run ${{ matrix.image }}:pr sleep infinity
 
       # ── Distroless variant (skip if no Dockerfile.distroless) ───────────────
 
