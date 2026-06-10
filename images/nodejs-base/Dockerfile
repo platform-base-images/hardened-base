@@ -22,9 +22,10 @@ WORKDIR /app
 # /etc/passwd. Add the entry so downstream Dockerfiles can use `USER nonroot`
 # by name, and tools like chown/su resolve the user without numeric fallback.
 USER root
-RUN grep -q '^nonroot:' /etc/passwd || \
-    printf 'nonroot:x:65532:65532:nonroot:/home/nonroot:/sbin/nologin\n' >> /etc/passwd; \
-    grep -q '^nonroot:' /etc/group || \
-    printf 'nonroot:x:65532:\n' >> /etc/group
+RUN apk upgrade --no-cache binutils npm && \
+    { grep -q '^nonroot:' /etc/passwd || \
+      printf 'nonroot:x:65532:65532:nonroot:/home/nonroot:/sbin/nologin\n' >> /etc/passwd; } && \
+    { grep -q '^nonroot:' /etc/group || \
+      printf 'nonroot:x:65532:\n' >> /etc/group; }
 
 USER nonroot
