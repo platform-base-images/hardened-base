@@ -299,8 +299,15 @@ jobs:
         run: |
           gh api repos/platform-base-images/app-reference-implementations/dispatches \
             --method POST \
-            --field event_type=renovate-run \
-            --field client_payload='{"image":"${{ matrix.image }}","digest":"${{ steps.build-standard.outputs.digest }}"}'
+            --input - <<EOF
+          {
+            "event_type": "renovate-run",
+            "client_payload": {
+              "image": "${{ matrix.image }}",
+              "digest": "${{ steps.build-standard.outputs.digest }}"
+            }
+          }
+          EOF
         env:
           GH_TOKEN: ${{ secrets.PLATFORM_TOKEN }}
 
