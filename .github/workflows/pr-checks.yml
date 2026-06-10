@@ -198,10 +198,17 @@ jobs:
         run: |
           IMAGE="${{ matrix.image }}:pr"
           GOSS_YAML="images/${{ matrix.image }}/tests/goss.yaml"
-          # Override entrypoint so images with custom ENTRYPOINTs (go, node, python, etc.)
-          # don't intercept the sleep command dgoss needs to keep the container alive.
-          CID=$(docker run -d --entrypoint /bin/sh "$IMAGE" -c "sleep 60")
+          # -dev images have /bin/sh; minimal images (nginx:latest) do not.
+          # For images with a shell, override the entrypoint and sleep so the
+          # container stays alive. For images without a shell, the default CMD
+          # (e.g. nginx -g 'daemon off;') keeps the container running naturally.
+          if docker run --rm --entrypoint /bin/sh "$IMAGE" -c "exit 0" 2>/dev/null; then
+            CID=$(docker run -d --entrypoint /bin/sh "$IMAGE" -c "sleep 60")
+          else
+            CID=$(docker run -d "$IMAGE")
+          fi
           trap "docker rm -f '$CID' 2>/dev/null || true" EXIT
+          sleep 1
           docker cp /usr/local/bin/goss "$CID:/tmp/goss"
           docker cp "$GOSS_YAML" "$CID:/tmp/goss.yaml"
           docker exec "$CID" /tmp/goss --gossfile /tmp/goss.yaml validate
