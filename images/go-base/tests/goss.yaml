@@ -6,7 +6,7 @@ command:
       - "/go version go[0-9]+\\./"
 
 file:
-  /usr/local/go/bin/go:
+  /usr/bin/go:
     exists: true
   /etc/ssl/certs/ca-certificates.crt:
     exists: true

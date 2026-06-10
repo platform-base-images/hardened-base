@@ -25,7 +25,7 @@ commandTests:
 
 fileExistenceTests:
   - name: "go binary present"
-    path: "/usr/local/go/bin/go"
+    path: "/usr/bin/go"
     shouldExist: true
   - name: "ca-certificates present"
     path: "/etc/ssl/certs/ca-certificates.crt"
