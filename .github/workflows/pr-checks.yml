@@ -43,7 +43,7 @@ jobs:
           fetch-depth: 0
 
       - name: TruffleHog OSS — scan PR delta for secrets
-        uses: trufflesecurity/trufflehog@17456f8c7d042d8c82c9a8ca9e937231f9f42e26 # v3.95.2
+        uses: trufflesecurity/trufflehog@d411fff7b8879a62509f3fa98c07f247ac089a51 # v3.95.5
         with:
           path: ./
           base: ${{ github.event.pull_request.base.sha || 'HEAD~1' }}
