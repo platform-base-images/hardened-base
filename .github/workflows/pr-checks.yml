@@ -145,7 +145,7 @@ jobs:
       # ── Standard variant ────────────────────────────────────────────────────
 
       - name: Build standard image (no push)
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
           context: images/${{ matrix.image }}
           file: images/${{ matrix.image }}/Dockerfile
@@ -218,7 +218,7 @@ jobs:
 
       - name: Build distroless image (no push)
         if: hashFiles(format('images/{0}/Dockerfile.distroless', matrix.image)) != ''
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
           context: images/${{ matrix.image }}
           file: images/${{ matrix.image }}/Dockerfile.distroless
