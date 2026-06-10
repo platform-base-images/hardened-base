@@ -187,22 +187,24 @@ jobs:
             --image ${{ matrix.image }}:pr \
             --config images/${{ matrix.image }}/tests/structure-test.yaml
 
-      - name: Install goss + dgoss
+      - name: Install goss
         run: |
           GOSS_VER=$(curl -sSf https://api.github.com/repos/goss-org/goss/releases/latest | jq -r .tag_name)
           curl -sSLo goss \
             "https://github.com/goss-org/goss/releases/download/${GOSS_VER}/goss-linux-amd64"
           chmod +x goss && sudo mv goss /usr/local/bin/goss
-          curl -sSLo dgoss \
-            "https://raw.githubusercontent.com/goss-org/goss/master/extras/dgoss/dgoss"
-          chmod +x dgoss && sudo mv dgoss /usr/local/bin/dgoss
 
       - name: Goss runtime tests — standard
         run: |
-          GOSS_FILES_PATH=images/${{ matrix.image }}/tests \
-          GOSS_PATH=/usr/local/bin/goss \
-          GOSS_DOCKER_OPTS="--entrypoint /bin/sh" \
-            dgoss run ${{ matrix.image }}:pr -c "sleep 60"
+          IMAGE="${{ matrix.image }}:pr"
+          GOSS_YAML="images/${{ matrix.image }}/tests/goss.yaml"
+          # Override entrypoint so images with custom ENTRYPOINTs (go, node, python, etc.)
+          # don't intercept the sleep command dgoss needs to keep the container alive.
+          CID=$(docker run -d --entrypoint /bin/sh "$IMAGE" -c "sleep 60")
+          trap "docker rm -f '$CID' 2>/dev/null || true" EXIT
+          docker cp /usr/local/bin/goss "$CID:/tmp/goss"
+          docker cp "$GOSS_YAML" "$CID:/tmp/goss.yaml"
+          docker exec "$CID" /tmp/goss --gossfile /tmp/goss.yaml validate
 
       # ── Distroless variant (skip if no Dockerfile.distroless) ───────────────
 
