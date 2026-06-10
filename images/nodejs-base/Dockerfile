@@ -20,9 +20,13 @@ WORKDIR /app
 
 USER root
 RUN apk upgrade --no-cache binutils npm && \
-    for f in /usr/lib/passwd /etc/passwd; do [ -f "$f" ] && sed -i '/^nonroot:/d' "$f"; done && \
-    printf 'nonroot:x:65532:65532:nonroot:/home/nonroot:/sbin/nologin\n' >> /etc/passwd && \
-    for f in /usr/lib/group /etc/group; do [ -f "$f" ] && sed -i '/^nonroot:/d' "$f"; done && \
-    printf 'nonroot:x:65532:\n' >> /etc/group
+    cat /usr/lib/passwd /etc/passwd 2>/dev/null \
+      | grep -v '^nonroot:' | awk -F: '!seen[$1]++' > /tmp/pw && \
+    printf 'nonroot:x:65532:65532:nonroot:/home/nonroot:/sbin/nologin\n' >> /tmp/pw && \
+    cat /tmp/pw > /etc/passwd && rm /tmp/pw && rm -f /usr/lib/passwd && \
+    cat /usr/lib/group /etc/group 2>/dev/null \
+      | grep -v '^nonroot:' | awk -F: '!seen[$1]++' > /tmp/gr && \
+    printf 'nonroot:x:65532:\n' >> /tmp/gr && \
+    cat /tmp/gr > /etc/group && rm /tmp/gr && rm -f /usr/lib/group
 
 USER nonroot
