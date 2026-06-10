@@ -20,7 +20,8 @@ jobs:
     # Only run for Renovate-authored PRs
     if: |
       github.actor == 'renovate[bot]' ||
-      github.actor == 'renovate-release[bot]'
+      github.actor == 'renovate-release[bot]' ||
+      github.actor == 'kev-aiyewumi'
     steps:
       - name: Validate PR is a digest-only bump
         id: validate
