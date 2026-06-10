@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1@sha256:2780b5c3bab67f1f76c781860de469442999ed1a0d7992a5efdf2cffc0e3d769
 # Wolfi OS base — the foundation all other images build from.
 # Pin updated weekly by Renovate. Run `make scan IMAGE=wolfi-base` to verify CVE count.
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:b78bb982194828b6c9c214230bf34d51944e2102ea8468f01ac21e5f99328efd
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:865267010fd5c6a45c7ab456848573010ec521b0d2677a0a966f3f2211b71eda
 
 ARG BUILD_DATE
 ARG GIT_REVISION
