@@ -3,6 +3,8 @@ name: Renovate
 on:
   schedule:
     - cron: '0 5 * * 1'  # Monday 05:00 UTC — satisfies "before 6am on Monday" in renovate.json
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       repoCache:
