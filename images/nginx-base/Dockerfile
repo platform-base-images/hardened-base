@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1@sha256:2780b5c3bab67f1f76c781860de469442999ed1a0d7992a5efdf2cffc0e3d769
 # Hardened Nginx on Wolfi — standard variant.
 # Runs as uid 101, listens on 8080, ships with security headers and server_tokens off.
-FROM cgr.dev/chainguard/nginx:latest@sha256:68aeaafe779ad616e80a4e63f223f42b20d5d4673fd2014a69dbdcadc57a267d
+FROM cgr.dev/chainguard/nginx:latest@sha256:d166cfff80ac94040ccc52c6a42768486483514f7494ca641a68399655b4a053
 
 ARG BUILD_DATE
 ARG GIT_REVISION

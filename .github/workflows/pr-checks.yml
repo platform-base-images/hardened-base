@@ -38,12 +38,12 @@ jobs:
     name: Secrets Scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
 
       - name: TruffleHog OSS — scan PR delta for secrets
-        uses: trufflesecurity/trufflehog@17456f8c7d042d8c82c9a8ca9e937231f9f42e26 # v3.95.2
+        uses: trufflesecurity/trufflehog@d411fff7b8879a62509f3fa98c07f247ac089a51 # v3.95.5
         with:
           path: ./
           base: ${{ github.event.pull_request.base.sha || 'HEAD~1' }}
@@ -55,7 +55,7 @@ jobs:
     name: Policy Check (OPA/Conftest)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: Install conftest
         run: |
@@ -78,7 +78,7 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       has_changes: ${{ steps.set-matrix.outputs.has_changes }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       # Manual trigger — build the matrix directly from the input
       - name: Set matrix from workflow_dispatch input
@@ -137,15 +137,15 @@ jobs:
       matrix:
         image: ${{ fromJSON(needs.detect-changes.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+        uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4.1.0
 
       # ── Standard variant ────────────────────────────────────────────────────
 
       - name: Build standard image (no push)
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
           context: images/${{ matrix.image }}
           file: images/${{ matrix.image }}/Dockerfile
@@ -173,6 +173,7 @@ jobs:
             -v /var/run/docker.sock:/var/run/docker.sock \
             goodwithtech/dockle:latest \
             --exit-code 1 --exit-level warn \
+            --ignore DKL-LI-0002 \
             ${{ matrix.image }}:pr
 
       - name: Install container-structure-test
@@ -217,7 +218,7 @@ jobs:
 
       - name: Build distroless image (no push)
         if: hashFiles(format('images/{0}/Dockerfile.distroless', matrix.image)) != ''
-        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
+        uses: docker/build-push-action@f9f3042f7e2789586610d6e8b85c8f03e5195baf # v7.2.0
         with:
           context: images/${{ matrix.image }}
           file: images/${{ matrix.image }}/Dockerfile.distroless

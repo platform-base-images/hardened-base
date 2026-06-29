@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1@sha256:2780b5c3bab67f1f76c781860de469442999ed1a0d7992a5efdf2cffc0e3d769
 # Node.js LTS on Wolfi — standard variant (includes shell, npm, npx).
 # Use as the build stage in multi-stage Dockerfiles.
-FROM cgr.dev/chainguard/node:latest-dev@sha256:54b9908d5fb64107d2de3cf00fdb8f6f9f7b18f9923c63155c551abb743d2293
+FROM cgr.dev/chainguard/node:latest-dev@sha256:795868ba42277447d99b5de5fb01309fda613b87c330c6882cd01e31732024b5
 
 ARG BUILD_DATE
 ARG GIT_REVISION
@@ -18,13 +18,9 @@ ENV NODE_ENV=production \
 
 WORKDIR /app
 
-# Chainguard registers nonroot (uid/gid 65532) in OCI image config but not in
-# /etc/passwd. Add the entry so downstream Dockerfiles can use `USER nonroot`
-# by name, and tools like chown/su resolve the user without numeric fallback.
 USER root
-RUN grep -q '^nonroot:' /etc/passwd || \
-    printf 'nonroot:x:65532:65532:nonroot:/home/nonroot:/sbin/nologin\n' >> /etc/passwd; \
-    grep -q '^nonroot:' /etc/group || \
-    printf 'nonroot:x:65532:\n' >> /etc/group
+RUN apk upgrade --no-cache binutils npm libcrypto3 libssl3 && \
+    { grep -q '^nonroot:' /etc/passwd || printf 'nonroot:x:65532:65532:nonroot:/home/nonroot:/sbin/nologin\n' >> /etc/passwd; } && \
+    { grep -q '^nonroot:' /etc/group  || printf 'nonroot:x:65532:\n' >> /etc/group; }
 
 USER nonroot
