@@ -18,4 +18,7 @@ ENV JAVA_TOOL_OPTIONS="-Djava.security.egd=file:/dev/./urandom" \
 
 WORKDIR /app
 
+USER root
+RUN apk upgrade --no-cache
+
 USER nonroot
