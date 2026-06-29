@@ -18,12 +18,7 @@ on:
           - nginx-base
           - go-base
 
-permissions:
-  contents: write      # create git tags + GitHub Releases
-  packages: write      # push to GHCR
-  id-token: write      # OIDC token for Cosign keyless signing + SLSA
-  security-events: write
-  attestations: write
+permissions: read-all
 
 env:
   REGISTRY: ghcr.io
@@ -34,6 +29,8 @@ jobs:
   detect-changes:
     name: Detect Changed Images
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       has_changes: ${{ steps.set-matrix.outputs.has_changes }}
@@ -92,6 +89,12 @@ jobs:
     needs: detect-changes
     if: needs.detect-changes.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write      # create git tags + GitHub Releases
+      packages: write      # push to GHCR
+      id-token: write      # OIDC token for Cosign keyless signing + SLSA
+      security-events: write
+      attestations: write
     strategy:
       fail-fast: false
       matrix:
