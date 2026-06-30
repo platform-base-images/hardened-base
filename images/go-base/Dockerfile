@@ -5,9 +5,10 @@ FROM cgr.dev/chainguard/go:latest-dev@sha256:6791de9c48e3a2e7f5f03a5a02821c12734
 
 ARG BUILD_DATE
 ARG GIT_REVISION
+ARG IMAGE_VERSION=dev
 
 LABEL org.opencontainers.image.source="https://github.com/platform-base-images/hardened-base"
-LABEL org.opencontainers.image.version="1.0.0"
+LABEL org.opencontainers.image.version="${IMAGE_VERSION}"
 LABEL org.opencontainers.image.created="${BUILD_DATE}"
 LABEL org.opencontainers.image.revision="${GIT_REVISION}"
 LABEL org.opencontainers.image.licenses="Apache-2.0"

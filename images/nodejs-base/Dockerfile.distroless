@@ -5,9 +5,11 @@ FROM cgr.dev/chainguard/node:latest@sha256:955b52dd59f8a73419fe1931e13a9b9eb822e
 
 ARG BUILD_DATE
 ARG GIT_REVISION
+ARG IMAGE_VERSION=dev
+ARG IMAGE_VERSION=dev
 
 LABEL org.opencontainers.image.source="https://github.com/platform-base-images/hardened-base"
-LABEL org.opencontainers.image.version="1.0.0-distroless"
+LABEL org.opencontainers.image.version="${IMAGE_VERSION}-distroless"
 LABEL org.opencontainers.image.created="${BUILD_DATE}"
 LABEL org.opencontainers.image.revision="${GIT_REVISION}"
 LABEL org.opencontainers.image.licenses="Apache-2.0"
