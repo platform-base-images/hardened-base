@@ -23,7 +23,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
-  ORG: platform-images
+  ORG: platform-base-images
   SEVERITY: ${{ inputs.severity || 'CRITICAL,HIGH,MEDIUM' }}
 
 jobs:
