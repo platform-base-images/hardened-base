@@ -1,24 +1,22 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:base"],
-  "schedule": ["before 6am on Monday"],
-  "prConcurrentLimit": 3,
-  "prHourlyLimit": 2,
+  "extends": ["config:recommended"],
+  "schedule": ["at any time"],
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 5,
+  "pinDigests": true,
+  "prCreation": "immediate",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate — Dependency Updates",
   "dependencyDashboardApproval": false,
   "commitMessagePrefix": "chore(deps): ",
   "labels": ["renovate", "digest-bump"],
   "ignoreDeps": ["docker/dockerfile"],
-  "docker": {
-    "enabled": true,
-    "pinDigests": true
-  },
   "packageRules": [
     {
       "description": "Chainguard/Wolfi digest bumps — auto-merge only when all status checks pass",
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["^cgr\\.dev/chainguard/"],
+      "matchPackageNames": ["cgr.dev/chainguard/**"],
       "automerge": true,
       "automergeType": "pr",
       "automergeStrategy": "squash",
@@ -34,8 +32,7 @@
     {
       "description": "All other Docker image updates — require manual review",
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": [".*"],
-      "excludePackagePatterns": ["^cgr\\.dev/chainguard/"],
+      "matchPackageNames": ["!cgr.dev/chainguard/**"],
       "automerge": false
     },
     {
