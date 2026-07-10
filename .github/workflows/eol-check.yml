@@ -29,11 +29,11 @@ jobs:
           # Format: "endoflife-api-slug:image-name:tracked-version"
           # Update tracked-version when the corresponding Dockerfile is upgraded.
           RUNTIMES=(
-            "nodejs:nodejs-base:20"
+            "nodejs:nodejs-base:22"
             "python:python-base:3.12"
             "openjdk:openjdk-base:21"
-            "nginx:nginx-base:1.26"
-            "go:go-base:1.22"
+            "nginx:nginx-base:1.30"
+            "go:go-base:1.26"
           )
 
           WARN_DAYS=90
@@ -123,7 +123,7 @@ jobs:
                 '',
                 `| Field | Value |`,
                 `|-------|-------|`,
-                `| Image | \`ghcr.io/platform-images/${rt.image}:latest\` |`,
+                `| Image | \`ghcr.io/platform-base-images/${rt.image}:latest\` |`,
                 `| Runtime | ${rt.api} ${rt.version} |`,
                 `| EOL Date | **${rt.eol}** |`,
                 `| Status | ${rt.label} |`,
