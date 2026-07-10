@@ -137,6 +137,7 @@ jobs:
           build-args: |
             BUILD_DATE=${{ steps.version.outputs.build_date }}
             GIT_REVISION=${{ github.sha }}
+            IMAGE_VERSION=${{ steps.version.outputs.semver }}
 
       - name: Trivy CVE scan — pre-push gate
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
@@ -189,6 +190,7 @@ jobs:
           build-args: |
             BUILD_DATE=${{ steps.version.outputs.build_date }}
             GIT_REVISION=${{ github.sha }}
+            IMAGE_VERSION=${{ steps.version.outputs.semver }}
           cache-from: type=gha,scope=${{ matrix.image }}
           cache-to: type=gha,scope=${{ matrix.image }},mode=max
           provenance: false   # we generate SLSA provenance ourselves below
@@ -209,6 +211,7 @@ jobs:
           build-args: |
             BUILD_DATE=${{ steps.version.outputs.build_date }}
             GIT_REVISION=${{ github.sha }}
+            IMAGE_VERSION=${{ steps.version.outputs.semver }}
           cache-from: type=gha,scope=${{ matrix.image }}-distroless
           cache-to: type=gha,scope=${{ matrix.image }}-distroless,mode=max
           provenance: false

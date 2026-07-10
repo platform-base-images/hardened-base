@@ -1,4 +1,4 @@
-REGISTRY   ?= ghcr.io/platform-images
+REGISTRY   ?= ghcr.io/platform-base-images
 VERSION    ?= 1.0.0
 PLATFORM   ?= linux/amd64,linux/arm64
 BUILD_DATE ?= $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
