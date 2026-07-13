@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1@sha256:2780b5c3bab67f1f76c781860de469442999ed1a0d7992a5efdf2cffc0e3d769
 # Go toolchain on Wolfi — standard variant (full Go toolchain, includes shell).
 # Use as the build stage in multi-stage Dockerfiles; pair with Dockerfile.distroless for runtime.
-FROM cgr.dev/chainguard/go:latest-dev@sha256:56023fe88f72ce418d21a5474cbd8ab531d46600725a770f23c146bd53a310a9
+FROM cgr.dev/chainguard/go:latest-dev@sha256:c0c5ae1297b2bd63308f45d8936d1d14f3046ca8e2b75cc37e87552732ab9bea
 
 ARG BUILD_DATE
 ARG GIT_REVISION
