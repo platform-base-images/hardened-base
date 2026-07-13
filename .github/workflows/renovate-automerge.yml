@@ -53,7 +53,7 @@ jobs:
           gh pr review --approve "$PR_URL" \
             --body "Automated approval: Renovate-managed dependency update touching only expected files. All CI security gates must pass before merge."
         env:
-          GH_TOKEN: ${{ secrets.PLATFORM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
 
       - name: Enable auto-merge (squash)
