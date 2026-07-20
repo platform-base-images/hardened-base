@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1@sha256:2780b5c3bab67f1f76c781860de469442999ed1a0d7992a5efdf2cffc0e3d769
 # OpenJDK + Maven on Wolfi — standard variant (full JDK + Maven, includes shell).
 # Use as the build stage in multi-stage Dockerfiles.
-FROM cgr.dev/chainguard/maven:latest-dev@sha256:e74ad7bca165b89a48b69f6c19c07b8675d337d2ea4a3e67e428f2a01a95527a
+FROM cgr.dev/chainguard/maven:latest-dev@sha256:b48af449b228a29c48bb93d89f62e4072fcbc9dc0593ce3969e53ae8e5d2d042
 
 ARG BUILD_DATE
 ARG GIT_REVISION
