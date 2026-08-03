@@ -195,8 +195,9 @@ jobs:
           set -euo pipefail
           GOSS_VER=$(curl -sSf -H "Authorization: Bearer ${GH_TOKEN}" \
             https://api.github.com/repos/goss-org/goss/releases/latest | jq -r .tag_name)
-          curl -sSLf -o goss \
-            "https://github.com/goss-org/goss/releases/download/${GOSS_VER}/goss-linux-amd64"
+          curl -sSLf -o goss.tar.gz \
+            "https://github.com/goss-org/goss/releases/download/${GOSS_VER}/goss_${GOSS_VER#v}_linux_x86_64.tar.gz"
+          tar xzf goss.tar.gz goss
           chmod +x goss && sudo mv goss /usr/local/bin/goss
 
       - name: Goss runtime tests — standard
