@@ -189,9 +189,13 @@ jobs:
             --config images/${{ matrix.image }}/tests/structure-test.yaml
 
       - name: Install goss
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          GOSS_VER=$(curl -sSf https://api.github.com/repos/goss-org/goss/releases/latest | jq -r .tag_name)
-          curl -sSLo goss \
+          set -euo pipefail
+          GOSS_VER=$(curl -sSf -H "Authorization: Bearer ${GH_TOKEN}" \
+            https://api.github.com/repos/goss-org/goss/releases/latest | jq -r .tag_name)
+          curl -sSLf -o goss \
             "https://github.com/goss-org/goss/releases/download/${GOSS_VER}/goss-linux-amd64"
           chmod +x goss && sudo mv goss /usr/local/bin/goss
 
