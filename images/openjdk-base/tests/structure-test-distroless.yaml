@@ -1,0 +1,29 @@
+schemaVersion: 2.0.0
+
+# chainguard/jre names its non-root account "java" (uid/gid 65532), not
+# "nonroot" like Chainguard's other images. This test file exists specifically
+# because that mismatch previously shipped undetected — USER nonroot fails at
+# container-start time, not build time, so nothing in the standard build/scan
+# pipeline caught it until a real consumer tried to run the published image.
+
+metadataTest:
+  user: "java"
+  labels:
+    - key: "org.opencontainers.image.source"
+      value: "https://github.com/platform-base-images/hardened-base"
+    - key: "org.opencontainers.image.licenses"
+      value: "Apache-2.0"
+
+commandTests:
+  - name: "java binary executes"
+    # No id/coreutils in this minimal distroless image to check uid directly —
+    # metadataTest.user above covers identity; this covers the binary itself
+    # actually running as that user without erroring at container start.
+    command: "java"
+    args: ["-version"]
+    expectedError: ["openjdk version"]
+
+fileExistenceTests:
+  - name: "java binary present"
+    path: "/usr/bin/java"
+    shouldExist: true
