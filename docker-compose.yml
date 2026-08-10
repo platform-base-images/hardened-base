@@ -33,13 +33,6 @@ services:
     image: ghcr.io/platform-images/python-base:local
     command: ["python3", "--version"]
 
-  python-base-distroless:
-    build:
-      context: images/python-base
-      dockerfile: Dockerfile.distroless
-    image: ghcr.io/platform-images/python-base:local-distroless
-    command: ["python3", "--version"]
-
   openjdk-base:
     build:
       context: images/openjdk-base

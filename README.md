@@ -102,7 +102,7 @@ flowchart TD
 |---|---|:---:|:---:|
 | `wolfi-base` | Minimal Wolfi OS — foundation for all other images | ✓ | — |
 | `nodejs-base` | Node.js LTS runtime | ✓ | ✓ |
-| `python-base` | Python 3.12 runtime | ✓ | ✓ |
+| `python-base` | Python 3.14 runtime, built on wolfi-base | ✓ | — |
 | `openjdk-base` | OpenJDK + Maven (standard) · JRE-only (distroless) | ✓ | ✓ |
 | `nginx-base` | Hardened Nginx — non-root, port 8080, security headers | ✓ | — |
 | `go-base` | Go toolchain (standard) · Static base for compiled binaries (distroless) | ✓ | ✓ |
