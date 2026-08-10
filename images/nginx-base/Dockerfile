@@ -18,7 +18,7 @@ USER root
 RUN apk add --no-cache \
       ca-certificates \
       tzdata \
-      nginx-stable \
+      nginx-stable=1.30.4-r2 \
       nginx-stable-mime-types && \
     apk upgrade --no-cache && \
     { grep -q '^nginx:' /etc/group  || printf 'nginx:x:101:\n' >> /etc/group; } && \
