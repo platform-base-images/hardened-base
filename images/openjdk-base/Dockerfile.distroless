@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1@sha256:2780b5c3bab67f1f76c781860de469442999ed1a0d7992a5efdf2cffc0e3d769
 # OpenJDK on Wolfi — distroless variant (JRE only, no shell, no Maven).
 # Use as the final runtime stage in multi-stage Dockerfiles.
-FROM cgr.dev/chainguard/jre:latest@sha256:8212fb61630e9e8b7388024108f17e53278b9b0df833cf73b685aae0f7603654
+FROM cgr.dev/chainguard/jre:latest@sha256:f0ed21aa77131fbcb097f0f880fa3406cbd7465f2761846f8dc6063fa956bbb4
 
 ARG BUILD_DATE
 ARG GIT_REVISION
