@@ -17,6 +17,13 @@ commandTests:
     command: "mvn"
     args: ["--version"]
     expectedOutput: ["Apache Maven"]
+  - name: "javac binary executes"
+    # Catches the JDK-installed-but-JRE-set-as-default case: java/mvn --version
+    # can look fine while the compiler is unreachable (see openjdk-21-default-jvm
+    # vs openjdk-21-default-jdk).
+    command: "javac"
+    args: ["-version"]
+    expectedOutput: ["javac"]
   - name: "runs as non-root uid 65532"
     command: "id"
     args: ["-u"]
@@ -25,6 +32,9 @@ commandTests:
 fileExistenceTests:
   - name: "java binary present"
     path: "/usr/bin/java"
+    shouldExist: true
+  - name: "javac binary present"
+    path: "/usr/bin/javac"
     shouldExist: true
   - name: "ca-certificates present"
     path: "/etc/ssl/certs/ca-certificates.crt"

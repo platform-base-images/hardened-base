@@ -25,7 +25,7 @@ RUN apk add --no-cache \
       ca-certificates \
       tzdata \
       openjdk-21 \
-      openjdk-21-default-jvm \
+      openjdk-21-default-jdk \
       maven-3.9 && \
     apk upgrade --no-cache
 

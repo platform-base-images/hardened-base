@@ -9,9 +9,19 @@ command:
     exit-status: 0
     stdout:
       - "/Apache Maven/"
+  javac-version:
+    # Catches the JDK-installed-but-JRE-set-as-default case: java/mvn --version
+    # can look fine while the compiler is unreachable (see openjdk-21-default-jvm
+    # vs openjdk-21-default-jdk).
+    exec: "javac -version"
+    exit-status: 0
+    stdout:
+      - "/javac/"
 
 file:
   /usr/bin/java:
+    exists: true
+  /usr/bin/javac:
     exists: true
   /etc/ssl/certs/ca-certificates.crt:
     exists: true
