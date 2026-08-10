@@ -30,7 +30,7 @@ jobs:
           # Update tracked-version when the corresponding Dockerfile is upgraded.
           RUNTIMES=(
             "nodejs:nodejs-base:22"
-            "python:python-base:3.12"
+            "python:python-base:3.14"
             "openjdk:openjdk-base:21"
             "nginx:nginx-base:1.30"
             "go:go-base:1.26"

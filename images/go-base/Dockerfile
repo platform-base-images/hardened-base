@@ -26,7 +26,7 @@ USER root
 RUN apk add --no-cache \
       ca-certificates \
       tzdata \
-      go-1.25 && \
+      go-1.26 && \
     apk upgrade --no-cache
 
 USER nonroot
