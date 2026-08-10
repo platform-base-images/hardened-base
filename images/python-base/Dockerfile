@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1@sha256:2780b5c3bab67f1f76c781860de469442999ed1a0d7992a5efdf2cffc0e3d769
-# Python 3.12 on Wolfi — standard variant (includes shell, pip, venv).
+# Python 3.14 on Wolfi — standard variant (includes shell, pip, venv).
+# Built directly on wolfi-base — the foundation all other images build from.
 # Use as the build stage in multi-stage Dockerfiles.
-FROM cgr.dev/chainguard/python:latest-dev@sha256:93a58bdb02c7c37785752cfab31031331448ab84aeab5d14ca101b381bc49577
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:30f03343947c7ae3581fda727a6e2aa7b8ce7009b7bfc2ab8d5c9483ace5812f
 
 ARG BUILD_DATE
 ARG GIT_REVISION
@@ -21,8 +22,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 USER root
-RUN apk upgrade --no-cache && \
-    { grep -q '^nonroot:' /etc/passwd || printf 'nonroot:x:65532:65532:nonroot:/home/nonroot:/sbin/nologin\n' >> /etc/passwd; } && \
-    { grep -q '^nonroot:' /etc/group  || printf 'nonroot:x:65532:\n' >> /etc/group; }
+RUN apk add --no-cache \
+      ca-certificates \
+      tzdata \
+      python-3.14 \
+      py3.14-pip && \
+    apk upgrade --no-cache
 
 USER nonroot

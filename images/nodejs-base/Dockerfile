@@ -1,7 +1,8 @@
 # syntax=docker/dockerfile:1@sha256:2780b5c3bab67f1f76c781860de469442999ed1a0d7992a5efdf2cffc0e3d769
 # Node.js LTS on Wolfi — standard variant (includes shell, npm, npx).
+# Built directly on wolfi-base — the foundation all other images build from.
 # Use as the build stage in multi-stage Dockerfiles.
-FROM cgr.dev/chainguard/node:latest-dev@sha256:038f7797d68cdd6c853e1840c78de9a3da9f984af0bbcb7d3d832b85d07c4a47
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:30f03343947c7ae3581fda727a6e2aa7b8ce7009b7bfc2ab8d5c9483ace5812f
 
 ARG BUILD_DATE
 ARG GIT_REVISION
@@ -20,8 +21,11 @@ ENV NODE_ENV=production \
 WORKDIR /app
 
 USER root
-RUN apk upgrade --no-cache && \
-    { grep -q '^nonroot:' /etc/passwd || printf 'nonroot:x:65532:65532:nonroot:/home/nonroot:/sbin/nologin\n' >> /etc/passwd; } && \
-    { grep -q '^nonroot:' /etc/group  || printf 'nonroot:x:65532:\n' >> /etc/group; }
+RUN apk add --no-cache \
+      ca-certificates \
+      tzdata \
+      nodejs-22 \
+      npm && \
+    apk upgrade --no-cache
 
 USER nonroot
