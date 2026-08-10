@@ -17,4 +17,10 @@ ENV JAVA_TOOL_OPTIONS="-Djava.security.egd=file:/dev/./urandom -XX:+UseContainer
 
 WORKDIR /app
 
-USER nonroot
+# chainguard/jre doesn't create a "nonroot" account like Chainguard's other
+# images (python, node, wolfi-base) do — its non-root user is named "java"
+# (still uid/gid 65532). USER nonroot here fails at container-start time with
+# "unable to find user nonroot: no matching entries in passwd file", not at
+# build time, so it was never caught until a real consumer tried to run the
+# published image (platform-base-images/app-reference-implementations#136).
+USER java
