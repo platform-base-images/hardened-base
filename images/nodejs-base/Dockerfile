@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1@sha256:2780b5c3bab67f1f76c781860de469442999ed1a0d7992a5efdf2cffc0e3d769
 # Node.js LTS on Wolfi — standard variant (includes shell, npm, npx).
 # Use as the build stage in multi-stage Dockerfiles.
-FROM cgr.dev/chainguard/node:latest-dev@sha256:038f7797d68cdd6c853e1840c78de9a3da9f984af0bbcb7d3d832b85d07c4a47
+FROM cgr.dev/chainguard/node:latest-dev@sha256:2fae77aa4b94e032e825e3d72653c932c8e89505a7547f5b67cd8ef0a24831dd
 
 ARG BUILD_DATE
 ARG GIT_REVISION
