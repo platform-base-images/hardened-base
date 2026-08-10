@@ -19,13 +19,6 @@ services:
     image: ghcr.io/platform-images/nodejs-base:local
     command: ["node", "--version"]
 
-  nodejs-base-distroless:
-    build:
-      context: images/nodejs-base
-      dockerfile: Dockerfile.distroless
-    image: ghcr.io/platform-images/nodejs-base:local-distroless
-    command: ["node", "--version"]
-
   python-base:
     build:
       context: images/python-base

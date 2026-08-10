@@ -101,11 +101,11 @@ flowchart TD
 | Image | Description | Standard | Distroless |
 |---|---|:---:|:---:|
 | `wolfi-base` | Minimal Wolfi OS — foundation for all other images | ✓ | — |
-| `nodejs-base` | Node.js LTS runtime | ✓ | ✓ |
+| `nodejs-base` | Node.js LTS runtime, built on wolfi-base | ✓ | — |
 | `python-base` | Python 3.14 runtime, built on wolfi-base | ✓ | — |
-| `openjdk-base` | OpenJDK + Maven (standard) · JRE-only (distroless) | ✓ | ✓ |
+| `openjdk-base` | OpenJDK + Maven, built on wolfi-base (standard) · JRE-only (distroless) | ✓ | ✓ |
 | `nginx-base` | Hardened Nginx — non-root, port 8080, security headers | ✓ | — |
-| `go-base` | Go toolchain (standard) · Static base for compiled binaries (distroless) | ✓ | ✓ |
+| `go-base` | Go toolchain, built on wolfi-base (standard) · Static base for compiled binaries (distroless) | ✓ | ✓ |
 
 ### Standard vs Distroless
 
