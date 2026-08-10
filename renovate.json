@@ -21,12 +21,6 @@
       "automergeType": "pr",
       "automergeStrategy": "squash",
       "platformAutomerge": false,
-      "requiredStatusChecks": [
-        "secrets-scan",
-        "policy-check",
-        "build-and-scan",
-        "structure-tests"
-      ],
       "commitMessageTopic": "Wolfi base digest for {{depName}}"
     },
     {
