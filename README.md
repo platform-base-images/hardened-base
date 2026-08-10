@@ -64,7 +64,7 @@ flowchart TD
     MERGE --> R1
 
     subgraph REGISTRY["  GHCR  ·  ghcr.io/platform-images  "]
-        IMG["nodejs-base · python-base\nopenjdk-base · nginx-base\ngo-base · wolfi-base\n\n:1.x.x   :latest\n:1.x.x-distroless   :latest-distroless"]
+        IMG["nodejs-base · python-base\nopenjdk-base · nginx-base\ngo-base · wolfi-base\n\n:1.x.x   :latest\nopenjdk-base + go-base also ship\n:1.x.x-distroless   :latest-distroless"]
     end
 
     R8 --> IMG
@@ -116,21 +116,20 @@ flowchart TD
 | Attack surface | Larger | Minimal |
 | Intended use | Build stage, CI, debugging | Production runtime stage |
 
-Use the **standard** variant for `FROM … AS builder` and the **distroless** variant for the final `FROM` in multi-stage builds:
+Use the **standard** variant for `FROM … AS builder` and the **distroless** variant for the final `FROM` in multi-stage builds. Only `openjdk-base` and `go-base` currently ship a distroless variant — `nodejs-base` and `python-base` are standard-only (see [Images](#images) above):
 
 ```dockerfile
 # Build stage — shell + package manager available
-FROM ghcr.io/platform-base-images/nodejs-base:1.0.0 AS builder
+FROM ghcr.io/platform-base-images/go-base:1.0.0 AS builder
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
+COPY . .
+RUN go build -o server .
 
 # Runtime stage — no shell, minimal attack surface
-FROM ghcr.io/platform-base-images/nodejs-base:1.0.0-distroless
+FROM ghcr.io/platform-base-images/go-base:1.0.0-distroless
 WORKDIR /app
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
-CMD ["node", "dist/index.js"]
+COPY --from=builder /app/server .
+CMD ["/app/server"]
 ```
 
 ---
@@ -253,11 +252,11 @@ Tracked runtimes (update these in `eol-check.yml` after any major version upgrad
 
 | Image | Runtime | Version |
 |---|---|---|
-| `nodejs-base` | Node.js | 20 |
-| `python-base` | Python | 3.12 |
+| `nodejs-base` | Node.js | 22 |
+| `python-base` | Python | 3.14 |
 | `openjdk-base` | OpenJDK | 21 |
-| `nginx-base` | Nginx | 1.26 |
-| `go-base` | Go | 1.22 |
+| `nginx-base` | Nginx | 1.30 |
+| `go-base` | Go | 1.26 |
 
 ---
 
