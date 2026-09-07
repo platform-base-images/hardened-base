@@ -2,7 +2,7 @@
 # Go toolchain on Wolfi — standard variant (full Go toolchain, includes shell).
 # Built directly on wolfi-base — the foundation all other images build from.
 # Use as the build stage in multi-stage Dockerfiles; pair with Dockerfile.distroless for runtime.
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:57108e597a8cf3bd376b810f1c3539c21942daefa242cb9dddaae30f8aac735d
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:918a593b8268c222afd4e2c4f06860ac984e60719b4697e4c71d796bc8fcd042
 
 ARG BUILD_DATE
 ARG GIT_REVISION
