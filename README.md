@@ -207,7 +207,7 @@ kubectl apply -f examples/admission/kyverno-cosign-policy.yaml
 | SBOM attestation | Syft generates SPDX JSON attached as OCI attestation to every image |
 | SLSA Level 2+ provenance | `actions/attest-build-provenance` proves build origin and environment |
 | Secrets never baked in | TruffleHog scans every PR diff for verified secrets |
-| Policy enforcement | OPA/Conftest validates every `Dockerfile*` against `policies/dockerfile.rego` |
+| Policy enforcement | OPA/Conftest validates every `Dockerfile*` against `policies/dockerfile.rego`; `conftest verify` runs negative-control tests so a rule that stops firing fails CI |
 | CIS benchmark | Dockle report saved as workflow artifact on every release |
 | Admission control | Kyverno and OPA Gatekeeper policies enforce registry + signature at pod admission |
 | Runtime EOL tracking | Monthly check against endoflife.date API — issues opened 90 days before and on EOL |

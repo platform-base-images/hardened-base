@@ -63,6 +63,7 @@ test:
 lint:
 	@test -n "$(IMAGE)" || (echo "ERROR: IMAGE is required." && exit 1)
 	dockle --exit-code 1 --exit-level warn $(REGISTRY)/$(IMAGE):$(VERSION)
+	conftest verify --policy policies
 	conftest test images/$(IMAGE)/Dockerfile --policy policies/dockerfile.rego
 
 sign:

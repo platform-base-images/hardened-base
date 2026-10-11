@@ -66,6 +66,11 @@ jobs:
           tar xzf conftest.tar.gz conftest
           sudo install -m 755 conftest /usr/local/bin/conftest
 
+      # Fails if a rule stops firing (e.g. package renamed away from `main`,
+      # which makes conftest evaluate zero rules and pass vacuously).
+      - name: Conftest — policy unit tests (negative controls)
+        run: conftest verify --policy policies --no-color
+
       - name: Conftest — lint all Dockerfiles against policies/dockerfile.rego
         run: |
           find images -name "Dockerfile*" ! -name "*.md" -print0 | \
