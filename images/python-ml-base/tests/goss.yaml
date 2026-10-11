@@ -1,0 +1,37 @@
+command:
+  python-version:
+    exec: "python3 --version"
+    exit-status: 0
+    stdout:
+      - "/Python 3\\./"
+  pip-version:
+    exec: "pip3 --version"
+    exit-status: 0
+    stdout:
+      - "/pip [0-9]+\\./"
+  models-not-writable:
+    exec: "touch /models/tamper"
+    exit-status: 1
+
+file:
+  /usr/bin/python3:
+    exists: true
+  /etc/ssl/certs/ca-certificates.crt:
+    exists: true
+    mode: "0644"
+  /usr/lib/libstdc++.so.6:
+    exists: true
+  /usr/lib/libgomp.so.1:
+    exists: true
+  /models:
+    exists: true
+    filetype: directory
+    owner: root
+    group: root
+    mode: "0555"
+
+user:
+  nonroot:
+    exists: true
+    uid: 65532
+    gid: 65532

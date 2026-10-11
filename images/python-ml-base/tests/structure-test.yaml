@@ -1,0 +1,67 @@
+schemaVersion: 2.0.0
+
+metadataTest:
+  user: "nonroot"
+  envVars:
+    - key: "PYTHONDONTWRITEBYTECODE"
+      value: "1"
+    - key: "PYTHONUNBUFFERED"
+      value: "1"
+    - key: "MODEL_DIR"
+      value: "/models"
+    - key: "HF_HUB_OFFLINE"
+      value: "1"
+    - key: "HF_DATASETS_OFFLINE"
+      value: "1"
+    - key: "TRANSFORMERS_OFFLINE"
+      value: "1"
+    - key: "HF_HUB_DISABLE_TELEMETRY"
+      value: "1"
+    - key: "TORCH_FORCE_WEIGHTS_ONLY_LOAD"
+      value: "1"
+  labels:
+    - key: "org.opencontainers.image.source"
+      value: "https://github.com/platform-base-images/hardened-base"
+    - key: "org.opencontainers.image.licenses"
+      value: "Apache-2.0"
+
+commandTests:
+  - name: "python3 binary executes"
+    command: "python3"
+    args: ["--version"]
+    expectedOutput: ["Python 3\\."]
+  - name: "pip3 binary executes"
+    command: "pip3"
+    args: ["--version"]
+    expectedOutput: ["pip [0-9]+\\."]
+  - name: "runs as non-root uid 65532"
+    command: "id"
+    args: ["-u"]
+    expectedOutput: ["65532"]
+  - name: "model directory is not writable by nonroot"
+    command: "sh"
+    args: ["-c", "touch /models/tamper 2>/dev/null && echo writable || echo read-only"]
+    expectedOutput: ["read-only"]
+
+fileExistenceTests:
+  - name: "python3 binary present"
+    path: "/usr/bin/python3"
+    shouldExist: true
+  - name: "ca-certificates present"
+    path: "/etc/ssl/certs/ca-certificates.crt"
+    shouldExist: true
+  - name: "libstdc++ present for ML wheels"
+    path: "/usr/lib/libstdc++.so.6"
+    shouldExist: true
+  - name: "libgomp present for ML wheels"
+    path: "/usr/lib/libgomp.so.1"
+    shouldExist: true
+  - name: "model directory root-owned, read-only"
+    path: "/models"
+    shouldExist: true
+    permissions: "dr-xr-xr-x"
+    uid: 0
+    gid: 0
+  - name: "no .pyc files at root"
+    path: "/__pycache__"
+    shouldExist: false

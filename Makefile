@@ -39,7 +39,7 @@ build-distroless:
 	  images/$(IMAGE)/
 
 build-all:
-	@for img in wolfi-base nodejs-base python-base openjdk-base nginx-base go-base; do \
+	@for img in wolfi-base nodejs-base python-base python-ml-base openjdk-base nginx-base go-base; do \
 	  echo "==> Building $$img"; \
 	  make build IMAGE=$$img; \
 	  if [ -f images/$$img/Dockerfile.distroless ]; then make build-distroless IMAGE=$$img; fi; \
@@ -63,6 +63,7 @@ test:
 lint:
 	@test -n "$(IMAGE)" || (echo "ERROR: IMAGE is required." && exit 1)
 	dockle --exit-code 1 --exit-level warn $(REGISTRY)/$(IMAGE):$(VERSION)
+	conftest verify --policy policies
 	conftest test images/$(IMAGE)/Dockerfile --policy policies/dockerfile.rego
 
 sign:

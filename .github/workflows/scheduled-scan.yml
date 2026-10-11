@@ -37,6 +37,7 @@ jobs:
           - wolfi-base
           - nodejs-base
           - python-base
+          - python-ml-base
           - openjdk-base
           - nginx-base
           - go-base
@@ -214,7 +215,7 @@ jobs:
         with:
           script: |
             const images = [
-              'wolfi-base','nodejs-base','python-base',
+              'wolfi-base','nodejs-base','python-base','python-ml-base',
               'openjdk-base','nginx-base','go-base'
             ];
             // For each image, check if all matrix scan jobs succeeded (no CVEs)

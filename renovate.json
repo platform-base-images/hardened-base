@@ -14,9 +14,10 @@
   "ignoreDeps": ["docker/dockerfile"],
   "packageRules": [
     {
-      "description": "Chainguard/Wolfi digest bumps — auto-merge only when all status checks pass",
+      "description": "Chainguard/Wolfi digest bumps — one grouped PR, auto-merge only when all status checks pass. Grouped because an image can scan several bases (openjdk-base: wolfi-base + jre), so per-base PRs deadlock when a CVE fix lands in all bases at once",
       "matchDatasources": ["docker"],
       "matchPackageNames": ["cgr.dev/chainguard/**"],
+      "groupName": "Chainguard base digests",
       "automerge": true,
       "automergeType": "pr",
       "automergeStrategy": "squash",
