@@ -39,7 +39,7 @@ build-distroless:
 	  images/$(IMAGE)/
 
 build-all:
-	@for img in wolfi-base nodejs-base python-base openjdk-base nginx-base go-base; do \
+	@for img in wolfi-base nodejs-base python-base python-ml-base openjdk-base nginx-base go-base; do \
 	  echo "==> Building $$img"; \
 	  make build IMAGE=$$img; \
 	  if [ -f images/$$img/Dockerfile.distroless ]; then make build-distroless IMAGE=$$img; fi; \

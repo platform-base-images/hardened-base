@@ -64,7 +64,7 @@ flowchart TD
     MERGE --> R1
 
     subgraph REGISTRY["  GHCR  ·  ghcr.io/platform-images  "]
-        IMG["nodejs-base · python-base\nopenjdk-base · nginx-base\ngo-base · wolfi-base\n\n:1.x.x   :latest\nopenjdk-base + go-base also ship\n:1.x.x-distroless   :latest-distroless"]
+        IMG["nodejs-base · python-base · python-ml-base\nopenjdk-base · nginx-base\ngo-base · wolfi-base\n\n:1.x.x   :latest\nopenjdk-base + go-base also ship\n:1.x.x-distroless   :latest-distroless"]
     end
 
     R8 --> IMG
@@ -103,6 +103,7 @@ flowchart TD
 | `wolfi-base` | Minimal Wolfi OS — foundation for all other images | ✓ | — |
 | `nodejs-base` | Node.js LTS runtime, built on wolfi-base | ✓ | — |
 | `python-base` | Python 3.14 runtime, built on wolfi-base | ✓ | — |
+| `python-ml-base` | Python 3.14 for model serving — ML wheel runtime libs, offline model loading, read-only `/models` (see [below](#python-ml-base)) | ✓ | — |
 | `openjdk-base` | OpenJDK + Maven, built on wolfi-base (standard) · JRE-only (distroless) | ✓ | ✓ |
 | `nginx-base` | Hardened Nginx — non-root, port 8080, security headers | ✓ | — |
 | `go-base` | Go toolchain, built on wolfi-base (standard) · Static base for compiled binaries (distroless) | ✓ | ✓ |
@@ -130,6 +131,28 @@ FROM ghcr.io/platform-base-images/go-base:1.0.0-distroless
 WORKDIR /app
 COPY --from=builder /app/server .
 CMD ["/app/server"]
+```
+
+### python-ml-base
+
+`python-base` plus what a model-serving workload needs, with defaults that close common ML supply-chain gaps:
+
+| Default | Why |
+|---|---|
+| `libstdc++`, `libgomp` | Native runtime libraries that ML wheels (onnxruntime, tokenizers, torch CPU) link against |
+| `HF_HUB_OFFLINE=1`, `TRANSFORMERS_OFFLINE=1`, `HF_DATASETS_OFFLINE=1` | Models cannot be pulled at runtime — they must be copied in at build time, where CI can scan and sign them |
+| `TORCH_FORCE_WEIGHTS_ONLY_LOAD=1` | `torch.load` refuses arbitrary pickled objects, blocking code execution from a malicious checkpoint |
+| `/models` owned by root, mode `0555` | The nonroot process can read its model but cannot replace it |
+| `HF_HUB_DISABLE_TELEMETRY=1` | No outbound telemetry from the serving container |
+
+ML libraries themselves are not included: Wolfi does not package them for Python 3.14, and each app should pin and scan its own wheels.
+
+```dockerfile
+FROM ghcr.io/platform-base-images/python-ml-base:1.0.0@sha256:<digest>
+COPY --from=builder /opt/venv /opt/venv
+# COPY writes root-owned files, so the model stays read-only to nonroot
+COPY models/ /models/
+CMD ["/opt/venv/bin/python", "serve.py"]
 ```
 
 ---
@@ -254,6 +277,7 @@ Tracked runtimes (update these in `eol-check.yml` after any major version upgrad
 |---|---|---|
 | `nodejs-base` | Node.js | 22 |
 | `python-base` | Python | 3.14 |
+| `python-ml-base` | Python | 3.14 |
 | `openjdk-base` | OpenJDK | 21 |
 | `nginx-base` | Nginx | 1.30 |
 | `go-base` | Go | 1.26 |

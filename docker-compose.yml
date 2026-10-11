@@ -26,6 +26,15 @@ services:
     image: ghcr.io/platform-images/python-base:local
     command: ["python3", "--version"]
 
+  python-ml-base:
+    build:
+      context: images/python-ml-base
+      dockerfile: Dockerfile
+    image: ghcr.io/platform-images/python-ml-base:local
+    command: ["python3", "--version"]
+    read_only: true
+    # Example: docker compose run -v ./models:/models:ro python-ml-base python3 serve.py
+
   openjdk-base:
     build:
       context: images/openjdk-base
