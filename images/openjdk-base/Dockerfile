@@ -2,7 +2,7 @@
 # OpenJDK + Maven on Wolfi — standard variant (full JDK + Maven, includes shell).
 # Built directly on wolfi-base — the foundation all other images build from.
 # Use as the build stage in multi-stage Dockerfiles.
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:1c451d46a0d5c4e9f2b38e0e8d3e299564a1aa95c21973efcc1980a9d1d2e73e
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:c2a4815b6ca49b9bbafd451b4bde690d567a86b2b6b54877faac8082a7bc4296
 
 ARG BUILD_DATE
 ARG GIT_REVISION
