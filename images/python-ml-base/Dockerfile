@@ -11,7 +11,7 @@
 #     cannot swap the model it is serving.
 # ML libraries themselves are not included — Wolfi does not package them for
 # Python 3.14, and each app should pin and scan its own wheels.
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:c2a4815b6ca49b9bbafd451b4bde690d567a86b2b6b54877faac8082a7bc4296
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:360896efb0753a5701c48f860e17130c205eae5a264797aa3e7ea126ee2923a7
 
 ARG BUILD_DATE
 ARG GIT_REVISION
