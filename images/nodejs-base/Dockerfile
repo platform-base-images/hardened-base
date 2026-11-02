@@ -24,7 +24,7 @@ USER root
 RUN apk add --no-cache \
       ca-certificates \
       tzdata \
-      nodejs-22 \
+      nodejs-24 \
       npm && \
     apk upgrade --no-cache
 
