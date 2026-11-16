@@ -2,7 +2,7 @@
 # Python 3.14 on Wolfi — standard variant (includes shell, pip, venv).
 # Built directly on wolfi-base — the foundation all other images build from.
 # Use as the build stage in multi-stage Dockerfiles.
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:24f549a7fcace88e69b9557941168c74645688ecc4acf7fb6d734a6b74e9019d
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:2c12da5496e21e99003b3db3b9246f025e53d533c4df334205391260f1e8f85b
 
 ARG BUILD_DATE
 ARG GIT_REVISION
